@@ -34,7 +34,7 @@ const ElementsArticleCard= (props)=> {
   <div className="row">
             {props.articles && props.articles.map((product) => (
               
-              <article className="col-sm-3">
+  <article className="col-sm-3" key={product.id}>
   <div className="card">
     <img
       src={product.imageartpetitf}

@@ -7,13 +7,30 @@ import Plus from '@mui/icons-material/AddAlarm';
 import Minus from '@mui/icons-material/RemoveCircle';
 import Delete from '@mui/icons-material/Delete';
 
+import StripeCheckout from 'react-stripe-checkout';
+
 const Cart = () => {
+
   const { cartDetails, removeItem , clearCart, totalPrice, cartCount,incrementItem,decrementItem } = useShoppingCart();
+  
   const navigate = useNavigate();
 
-  const commander = () => {
-    navigate('/');
-  };
+const [payment, setpayment] = React.useState(false);
+const onToken = (token) => {
+  // Vous pouvez envoyer le token au backend ici pour finaliser la transaction, mais ce n'est pas nécessaire si vous utilisez Stripe Checkout directement.
+  console.log(token);
+  //vider le cart
+  clearCart();
+  //naviguer vers la page d'accueil
+  navigate('/');
+};
+
+  const commander = async() => {
+  
+   setpayment(true);
+
+
+ };
 
   const more = () => {
     navigate('/');
@@ -25,8 +42,19 @@ const Cart = () => {
 
   if (cartCount === 0) return <h1>Cart Empty</h1>;
 
+  const imprimer = () => {
+    navigate('/pdfCart');
+   };
+
   return (
     <div>
+   {payment ? <StripeCheckout
+  token={onToken}
+  stripeKey="pk_test_51KtYRUD3HS4vNAwatvmqAEXLKKX11UOcpkHfLnw9UPI9kZ7AJCOeLkqik61wHFXLmRGHUd4aNBvp45v82DpskKl300bMfznwlE"
+  amount={totalPrice*100} // Montant en centimes
+  currency="USD" // Devise
+/> :null}
+
       <Grid container spacing={2} columns={15} marginTop={10} marginLeft={10}>
         <Grid item xs={8}>
           {cartDetails && Object.values(cartDetails).map((item) => { 
@@ -76,16 +104,19 @@ const Cart = () => {
           <p>Total Articles</p>
           <h4>{cartCount}</h4>
           <p>Total Payement</p>
-          <h3>{totalPrice} TND</h3>
+          <h3>{totalPrice.toFixed(3) } TND</h3>
           <hr />
           <div>
+          <Button color="secondary" variant="outlined" onClick={imprimer}>
+              Imprimer PDF
+            </Button>
             <Button color="warning" variant="outlined" onClick={commander}>
               Commander
             </Button>
             <Button color="info" variant="outlined" onClick={clear}>
               Annuler
             </Button>
-          </div>
+           </div>
         </Grid>
       </Grid>
     </div>
