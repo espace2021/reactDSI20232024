@@ -7,6 +7,8 @@ import ListCards from './components/clientSide/ListCards';
 import { CartProvider } from "use-shopping-cart";
 import Cart from "./components/clientSide/Cart";
 import PdfCart from "./components/clientSide/PdfCart";
+import Loginclient from './components/authentificationClient/loginClient';
+import Signup from "./components/authentificationClient/Signup";
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
       <Route path='/' element={<ListCards/>}/>
       <Route path='/cart' element={<Cart/>}/>
       <Route path='/pdfCart' element={<PdfCart/>}/>
+      <Route path="/loginclient" exact element={<Loginclient/>}/>
+      <Route path="/signup" exact element={<Signup/>}/>
      </Routes>
     </Router>
     </CartProvider> 
